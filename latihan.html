@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan - Persamaan Lingkaran</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --bg-body: #ffffff;
+            --bg-grid: #e2e8f0;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --primary: #2d70b3;
+            --accent: #818cf8;
+            --border: #cbd5e1;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+        
+        body {
+            background-color: var(--bg-body);
+            background-image: 
+                linear-gradient(var(--bg-grid) 2px, transparent 2px),
+                linear-gradient(90deg, var(--bg-grid) 2px, transparent 2px);
+            background-size: 40px 40px;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 15vh;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            bottom: 0; left: 0; width: 100%; height: 15vh;
+            background: var(--primary);
+            clip-path: polygon(100% 100%, 0% 100% , 0% 60%, 15% 75%, 35% 50%, 55% 80%, 75% 40%, 100% 70%);
+            z-index: -1;
+            opacity: 0.9;
+        }
+
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--bg-grid);
+            position: sticky; top: 0; z-index: 100;
+        }
+
+        .logo { font-weight: 800; color: var(--primary); font-size: 1.5rem; text-decoration: none; }
+        .menu a { text-decoration: none; color: var(--text-muted); font-weight: 600; margin-left: 25px; }
+        .menu a.active { color: var(--primary); }
+
+        .content {
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            border: 2px solid var(--border);
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+        }
+
+        .soal-card {
+            background: #f8fafc;
+            border: 2px dashed var(--border);
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .soal-text { font-size: 1.25rem; font-weight: 600; color: #1e293b; margin-bottom: 30px; line-height: 1.6; }
+
+        .btn {
+            background: var(--primary); color: white; border: none; padding: 12px 25px;
+            border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; margin: 5px;
+        }
+        .btn-secondary { background: #64748b; }
+        .btn-accent { background: var(--accent); }
+
+        .jawaban, .penjelasan {
+            padding: 25px; margin-top: 20px; border-radius: 10px; display: none; text-align: left;
+        }
+        .jawaban { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; font-weight: bold; }
+        .penjelasan { background: #f1f5f9; border-left: 5px solid var(--primary); line-height: 1.7; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">MTK Lingkaran</a>
+        <div class="menu">
+            <a href="index.html">Beranda</a>
+            <a href="materi.html">Materi</a>
+            <a href="latihan.html" class="active">Latihan</a>
+        </div>
+    </nav>
+
+    <div class="content">
+        <h2 style="color: var(--primary); margin-bottom: 20px;">Latihan Soal Interaktif</h2>
+        <p style="margin-bottom: 25px; color: var(--text-muted);">Klik tombol 🔄 untuk mengganti soal secara acak.</p>
+
+        <div class="soal-card">
+            <div id="question-area" class="soal-text">Memuat soal...</div>
+            <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                <button class="btn" onclick="toggleDisplay('answer-area')">Buka Jawaban 🔓</button>
+                <button class="btn btn-accent" onclick="toggleDisplay('explanation-area')">Penjelasan 💡</button>
+                <button class="btn btn-secondary" onclick="loadRandom()">Ganti Soal 🔄</button>
+            </div>
+            <div id="answer-area" class="jawaban"></div>
+            <div id="explanation-area" class="penjelasan"></div>
+        </div>
+    </div>
+
+    <script>
+        const bankSoal = [
+            { 
+                q: "Tentukan pusat dan jari-jari dari: <br> $$x^2 + y^2 - 4x + 6y - 12 = 0$$", 
+                a: "Pusat = (2, -3) <br> Jari-jari = 5",
+                ex: "<b>Pusat:</b> a = -(-4)/2 = 2, b = -(6)/2 = -3. <br><b>r:</b> √(2² + (-3)² - (-12)) = √25 = 5"
+            },
+            { 
+                q: "Tentukan pusat dan jari-jari dari: <br> $$x^2 + y^2 + 2x - 8y + 5 = 0$$", 
+                a: "Pusat = (-1, 4) <br> Jari-jari = √12",
+                ex: "<b>Pusat:</b> a = -(2)/2 = -1, b = -(-8)/2 = 4. <br><b>r:</b> √((-1)² + 4² - 5) = √12"
+            },
+            { 
+                q: "Tentukan pusat dan jari-jari dari: <br> $$x^2 + y^2 + 6x + 4y - 3 = 0$$", 
+                a: "Pusat = (-3, -2) <br> Jari-jari = 4",
+                ex: "<b>Pusat:</b> a = -6/2 = -3, b = -4/2 = -2. <br><b>r:</b> √((-3)² + (-2)² - (-3)) = √16 = 4"
+            },
+            // SOAL MENCARI PERSAMAAN UMUM (BARU)
+            { 
+                q: "Tentukan persamaan umum lingkaran yang berpusat di (3, -2) dan berjari-jari 4!", 
+                a: "$$x^2 + y^2 - 6x + 4y - 3 = 0$$",
+                ex: "Gunakan rumus baku: (x-3)² + (y+2)² = 4² <br> x² - 6x + 9 + y² + 4y + 4 = 16 <br> x² + y² - 6x + 4y + 13 - 16 = 0 <br> <b>x² + y² - 6x + 4y - 3 = 0</b>"
+            },
+            { 
+                q: "Tentukan persamaan umum lingkaran yang berpusat di (-1, 5) dan berjari-jari 3!", 
+                a: "$$x^2 + y^2 + 2x - 10y + 17 = 0$$",
+                ex: "Gunakan rumus baku: (x+1)² + (y-5)² = 3² <br> x² + 2x + 1 + y² - 10y + 25 = 9 <br> x² + y² + 2x - 10y + 26 - 9 = 0 <br> <b>x² + y² + 2x - 10y + 17 = 0</b>"
+            }
+        ];
+
+        function loadRandom() {
+            const soal = bankSoal[Math.floor(Math.random() * bankSoal.length)];
+            document.getElementById('question-area').innerHTML = soal.q;
+            document.getElementById('answer-area').innerHTML = soal.a;
+            document.getElementById('explanation-area').innerHTML = soal.ex;
+            document.getElementById('answer-area').style.display = 'none';
+            document.getElementById('explanation-area').style.display = 'none';
+            if(window.MathJax) MathJax.typesetPromise();
+        }
+
+        function toggleDisplay(id) {
+            const el = document.getElementById(id);
+            el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+        }
+        window.onload = loadRandom;
+    </script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materi - Persamaan Lingkaran</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --bg-body: #ffffff;
+            --bg-grid: #e2e8f0;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --primary: #2d70b3;
+            --accent: #818cf8;
+            --border: #cbd5e1;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+        
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            background-image: 
+                linear-gradient(var(--bg-grid) 2px, transparent 2px),
+                linear-gradient(90deg, var(--bg-grid) 2px, transparent 2px);
+            background-size: 40px 40px;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 15vh;
+        }
+
+        /* Gelombang Biru Desmos */
+        body::after {
+            content: "";
+            position: fixed;
+            bottom: 0; left: 0; width: 100%; height: 15vh;
+            background: var(--primary);
+            clip-path: polygon(100% 100%, 0% 100% , 0% 60%, 15% 75%, 35% 50%, 55% 80%, 75% 40%, 100% 70%);
+            z-index: -1;
+            opacity: 0.9;
+        }
+        
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--bg-grid);
+            position: sticky; top: 0; z-index: 100;
+        }
+
+        .logo { font-weight: 800; color: var(--primary); font-size: 1.5rem; text-decoration: none; }
+        .menu a { text-decoration: none; color: var(--text-muted); font-weight: 600; margin-left: 25px; transition: 0.3s; }
+        .menu a.active { color: var(--primary); }
+
+        .content {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            border: 2px solid var(--border);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+        }
+
+        h2 { color: var(--primary); border-bottom: 3px solid var(--bg-grid); padding-bottom: 15px; margin-top: 50px; margin-bottom: 25px; font-weight: 700; }
+        h2:first-child { margin-top: 0; }
+        h3 { color: var(--accent); margin-top: 30px; margin-bottom: 15px; }
+        p, li { line-height: 1.8; color: #334155; margin-bottom: 15px; font-size: 1.05rem; }
+
+        .box-rumus {
+            background: #f8fafc;
+            border-left: 5px solid var(--primary);
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        .simulator-container {
+            background: #f1f5f9;
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid var(--border);
+            margin-top: 30px;
+        }
+        .input-group { display: flex; gap: 15px; margin-bottom: 20px; justify-content: center; flex-wrap: wrap; }
+        .input-item label { font-weight: bold; color: var(--primary); }
+        .input-item input { border: 1px solid var(--border); padding: 8px; border-radius: 6px; width: 80px; text-align: center; font-weight: bold; }
+        
+        canvas { background: white; border: 2px solid var(--border); border-radius: 12px; display: block; margin: 0 auto; max-width: 100%; }
+        
+        #calc-result { text-align: center; margin-top: 20px; font-weight: 700; color: var(--primary); font-size: 1.1rem; }
+        .btn-explain { display: block; width: 220px; margin: 20px auto; padding: 12px; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: 0.3s; }
+        .btn-explain:hover { opacity: 0.9; transform: translateY(-2px); }
+        #explanation-box { margin-top: 20px; padding: 25px; background: white; border: 1px dashed var(--accent); border-radius: 10px; display: none; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">Persamaan Lingkaran</a>
+        <div class="menu">
+            <a href="index.html">Beranda</a>
+            <a href="materi.html" class="active">Materi</a>
+            <a href="latihan.html">Latihan Soal</a>
+        </div>
+    </nav>
+
+    <div class="content">
+        <h2>A. Pengertian Lingkaran</h2>
+        <p>Lingkaran adalah tempat kedudukan titik-titik pada bidang datar yang berjarak sama terhadap suatu titik tertentu. Titik tertentu itu disebut <strong>pusat lingkaran</strong>, sedangkan jarak yang sama itu disebut <strong>jari-jari (r)</strong>.</p>
+
+        <h2>B. Persamaan Baku</h2>
+        <p>Jika lingkaran memiliki pusat di \(P(a, b)\) dan jari-jari \(r\), maka persamaannya adalah:</p>
+        <div class="box-rumus">
+            $$ (x - a)^2 + (y - b)^2 = r^2 $$
+        </div>
+
+        <h2>C. Persamaan Umum Lingkaran</h2>
+        <p>Persamaan umum diperoleh dengan menjabarkan persamaan baku:</p>
+        <div class="box-rumus">
+            $$ x^2 \ + \ y^2 \ + \ Ax \ + \ By \ + \ C \ = \ 0 $$
+        </div>
+        <p>Keterangan: \(A, B, C\) adalah bilangan real, dan koefisien \(x^2\) serta \(y^2\) harus sama.</p>
+
+        <h2>D. Rumus Pusat dan Jari-jari</h2>
+        <p>Jika persamaan umumnya diketahui, maka:</p>
+        
+        <h3>1. Pusat Lingkaran (P)</h3>
+        <div class="box-rumus">
+            $$ P = \left(-\frac{A}{2}, -\frac{B}{2}\right) $$
+        </div>
+
+        <h3>2. Jari-jari Lingkaran (r)</h3>
+        <div class="box-rumus">
+            $$ r = \sqrt{\left(\frac{A}{2}\right)^2 + \left(\frac{B}{2}\right)^2 - C} $$
+        </div>
+
+        <h2>E. Simulasi Diagram Kartesius</h2>
+        <div class="simulator-container">
+            <div class="input-group">
+                <div class="input-item"><label>A :</label> <input type="number" id="inputA" value="-4" oninput="drawDiagram()"></div>
+                <div class="input-item"><label>B :</label> <input type="number" id="inputB" value="6" oninput="drawDiagram()"></div>
+                <div class="input-item"><label>C :</label> <input type="number" id="inputC" value="-12" oninput="drawDiagram()"></div>
+            </div>
+
+            <canvas id="cartesianCanvas" width="600" height="400"></canvas>
+            <div id="calc-result">Menghitung...</div>
+            
+            <button class="btn-explain" onclick="toggleExplanation()">Lihat Langkah Kerja</button>
+            <div id="explanation-box">
+                <h3 style="color: var(--primary); margin-bottom: 10px;">Penyelesaian:</h3>
+                <div id="step-by-step"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('cartesianCanvas');
+        const ctx = canvas.getContext('2d');
+        const scale = 20;
+
+        function drawDiagram() {
+            const width = canvas.width, height = canvas.height, originX = width/2, originY = height/2;
+            ctx.clearRect(0, 0, width, height);
+            
+            // Grid Tebal
+            ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            for (let x = 0; x <= width; x += scale) { ctx.moveTo(x, 0); ctx.lineTo(x, height); }
+            for (let y = 0; y <= height; y += scale) { ctx.moveTo(0, y); ctx.lineTo(width, y); }
+            ctx.stroke();
+
+            // Sumbu Utama
+            ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 2.5;
+            ctx.beginPath(); ctx.moveTo(0, originY); ctx.lineTo(width, originY); ctx.moveTo(originX, 0); ctx.lineTo(originX, height); ctx.stroke();
+
+            const A = parseFloat(document.getElementById('inputA').value) || 0;
+            const B = parseFloat(document.getElementById('inputB').value) || 0;
+            const C = parseFloat(document.getElementById('inputC').value) || 0;
+
+            const h = -A / 2;
+            const k = -B / 2;
+            const rSquared = (h * h) + (k * k) - C;
+
+            if (rSquared >= 0) {
+                const r = Math.sqrt(rSquared);
+                document.getElementById('calc-result').innerHTML = `Pusat P(${h}, ${k}) | Jari-jari r = ${r.toFixed(2)}`;
+                
+                // Gambar Lingkaran Biru Desmos
+                ctx.beginPath(); 
+                ctx.strokeStyle = '#2d70b3'; 
+                ctx.lineWidth = 4;
+                ctx.arc(originX + (h * scale), originY - (k * scale), r * scale, 0, 2 * Math.PI); 
+                ctx.stroke();
+                ctx.fillStyle = 'rgba(45, 112, 179, 0.1)';
+                ctx.fill();
+
+                // Titik Pusat
+                ctx.beginPath();
+                ctx.fillStyle = '#1e293b';
+                ctx.arc(originX + (h * scale), originY - (k * scale), 5, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                document.getElementById('step-by-step').innerHTML = `
+                    <p><b>1. Titik Pusat (a, b):</b><br>a = -A/2 = -(${A})/2 = <b>${h}</b><br>b = -B/2 = -(${B})/2 = <b>${k}</b></p>
+                    <p><b>2. Jari-jari (r):</b><br>r = √(${h}² + ${k}² - (${C})) = √${rSquared.toFixed(2)} = <b>${r.toFixed(2)}</b></p>
+                `;
+            } else {
+                document.getElementById('calc-result').innerHTML = `<span style="color:#ef4444">Bukan Lingkaran Nyata (r² < 0)</span>`;
+                document.getElementById('step-by-step').innerHTML = `<p style="color:#ef4444">Nilai C terlalu besar, jari-jari tidak dapat didefinisikan secara real.</p>`;
+            }
+        }
+
+        function toggleExplanation() {
+            const box = document.getElementById('explanation-box');
+            box.style.display = (box.style.display === 'block') ? 'none' : 'block';
+        }
+
+        window.onload = drawDiagram;
+    </script>
+</body>
+</html>

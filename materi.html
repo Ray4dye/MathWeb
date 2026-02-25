@@ -72,6 +72,9 @@
         h2:first-child { margin-top: 0; }
         h3 { color: var(--accent); margin-top: 30px; margin-bottom: 15px; }
         p, li { line-height: 1.8; color: #334155; margin-bottom: 15px; font-size: 1.05rem; }
+        
+        /* Tambahan styling list untuk penjabaran rumus */
+        .content ul { margin-left: 20px; margin-bottom: 20px; }
 
         .box-rumus {
             background: #f8fafc;
@@ -123,22 +126,37 @@
         </div>
 
         <h2>C. Persamaan Umum Lingkaran</h2>
-        <p>Persamaan umum diperoleh dengan menjabarkan persamaan baku:</p>
+        <p>Persamaan umum lingkaran diperoleh dengan menjabarkan persamaan baku di atas secara aljabar:</p>
         <div class="box-rumus">
-            $$ x^2 \ + \ y^2 \ + \ Ax \ + \ By \ + \ C \ = \ 0 $$
+            $$ (x - a)^2 + (y - b)^2 = r^2 $$
+            $$ (x^2 - 2ax + a^2) + (y^2 - 2by + b^2) = r^2 $$
+            $$ x^2 + y^2 - 2ax - 2by + a^2 + b^2 - r^2 = 0 $$
         </div>
-        <p>Keterangan: \(A, B, C\) adalah bilangan real, dan koefisien \(x^2\) serta \(y^2\) harus sama.</p>
+        <p>Dari persamaan terakhir, kita buat pemisalan variabel baru:</p>
+        <ul>
+            <li>\( A = -2a \)</li>
+            <li>\( B = -2b \)</li>
+            <li>\( C = a^2 + b^2 - r^2 \)</li>
+        </ul>
+        <p>Sehingga, bentuknya berubah menjadi Persamaan Umum Lingkaran:</p>
+        <div class="box-rumus">
+            $$ x^2 + y^2 + Ax + By + C = 0 $$
+        </div>
+        <p>Keterangan: \(A, B, C\) adalah bilangan real, dan koefisien \(x^2\) serta \(y^2\) harus selalu sama (umumnya 1).</p>
 
         <h2>D. Rumus Pusat dan Jari-jari</h2>
+        <p>Berdasarkan penjabaran di atas, jika persamaan umumnya diketahui, kita dapat mencari balik nilai pusat dan jari-jarinya:</p>
         
         <h3>1. Pusat Lingkaran (P)</h3>
+        <p>Karena \(A = -2a\) dan \(B = -2b\), maka didapat \(a = -\frac{A}{2}\) dan \(b = -\frac{B}{2}\). Sehingga titik pusatnya:</p>
         <div class="box-rumus">
             $$ P = \left(-\frac{A}{2}, -\frac{B}{2}\right) $$
         </div>
 
         <h3>2. Jari-jari Lingkaran (r)</h3>
+        <p>Karena \(C = a^2 + b^2 - r^2\), maka \(r^2 = a^2 + b^2 - C\). Sehingga jari-jarinya dirumuskan:</p>
         <div class="box-rumus">
-            $$ r = \sqrt{\left(-\frac{A}{2}\right)^2 + \left(-\frac{B}{2}\right)^2 - C} $$
+            $$ r = \sqrt{\left(\frac{A}{2}\right)^2 + \left(\frac{B}{2}\right)^2 - C} $$
         </div>
 
         <h2>E. Simulasi Diagram Kartesius</h2>
@@ -225,6 +243,4 @@
         window.onload = drawDiagram;
     </script>
 </body>
-
 </html>
-
